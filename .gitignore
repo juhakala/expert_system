@@ -1,3 +1,6 @@
 expert_system/expert_system/bin/
 expert_system/expert_system/obj/
 expert_system/.vs/
+expert_system/packages/
+expert_system/UnitTests/obj/
+expert_system/UnitTests/bin/
