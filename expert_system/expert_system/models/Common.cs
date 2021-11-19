@@ -32,7 +32,7 @@ namespace expert_system.models
 		IFANDONLYIF
 	}
 
-	static class Common
+	static public class Common
 	{
 		static public Dictionary<Enum_Operator, string> Dict_FormulaMembers = new Dictionary<Enum_Operator, string>()
 		{
@@ -57,7 +57,7 @@ namespace expert_system.models
 		}
 		static private bool IsValidOperand(string item)
 		{
-			if (item.Length == 1 && item[0] >= 'A' && item[0] >= 'Z')
+			if (item.Length == 1 && item[0] >= 'A' && item[0] <= 'Z')
 			{
 				return true;
 			}
@@ -73,13 +73,13 @@ namespace expert_system.models
 		}
 		static private bool IsValidEquality(string item)
 		{
-			if (item.Length == 1 && Dict_Equality.ContainsValue(item))
+			if ((item.Length == 2 || item.Length == 3) && Dict_Equality.ContainsValue(item))
 			{
 				return true;
 			}
 			return false;
 		}
-		static public bool IsValidRule(string[] tokens)
+		static private bool IsValidRule(string[] tokens)
 		{
 			bool state = false;
 			bool equality = false;
@@ -89,14 +89,44 @@ namespace expert_system.models
 					state = true;
 				else if (state == true && IsValidOperator(tokens[i]))
 					state = false;
-				else if (state == false && IsValidEquality(tokens[i]))
+				else if (state == true && equality == false && IsValidEquality(tokens[i]))
+				{
 					equality = true;
+					state = false;
+				}
+				else
+					return false;
 			}
 			return state && equality;
 		}
+		static public string TrimLineToTokens(string line)
+		{
+			if (string.IsNullOrEmpty(line) || string.IsNullOrWhiteSpace(line))
+			{
+				throw new ArgumentNullException($"TrimLine -> Invalid line: '{line}'");
+			}
+			var tmp = line.Split("#")[0];
+			return tmp.Replace(@"/[^\S\r\n] /", " ").Trim();
+		}
 		static public bool IsValidRule(string line)
 		{
-			return (IsValidRule(line.Split(" ")));
+			return (IsValidRule(TrimLineToTokens(line).Split(" ")));
+		}
+		static private bool IsValidFact(char[] tokens)
+		{
+			bool state = true;
+			if (tokens.Length == 0 || tokens[0] != '=')
+				return false;
+			for (int i = 1; i < tokens.Length; i++)
+			{
+				if (tokens[i] < 'A' && tokens[i] > 'Z')
+					state = false;
+			}
+			return state;
+		}
+		static public bool IsValidFact(string line)
+		{
+			return IsValidFact(TrimLineToTokens(line).ToCharArray());
 		}
 	}
 }

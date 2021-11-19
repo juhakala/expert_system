@@ -10,5 +10,9 @@ namespace expert_system.models
 	{
 		private Input _input;
 		public Input input { get { return _input; } private set { _input = value; } }
+		public Controller()
+		{
+			input = new Input();
+		}
 	}
 }

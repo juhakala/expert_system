@@ -10,21 +10,23 @@ namespace expert_system.models
 	class Input
 	{
 		public string input_file { get; set; }
-		public List<string> lines { get; set; }
-		public List<Rule> rules { get; set; }
-		public List<Fact> facts { get; set; }
-		public List<Query> queries { get; set; }
+		private List<string> lines { get; set; }
+		private List<Rule> rules { get; set; }
+		private List<Fact> facts { get; set; }
+		private List<Query> queries { get; set; }
 
 		public Input()
 		{
 			lines = new List<string>();
+			InitStateMachine();
 		}
 		public bool ParseInput()
 		{
 			try
 			{
-				
-				return true;
+				while (string.IsNullOrEmpty(input_file) || string.IsNullOrWhiteSpace(input_file))
+					input_file = Console.ReadLine();
+				return ParseLines();
 			}
 			catch (Exception e)
 			{
@@ -46,16 +48,19 @@ namespace expert_system.models
 		}
 		private Enum_ParseState ParseRules(string line)
 		{
-			var tokens = line.Split(" ");
-			if (Common.IsValidRule(tokens))
+			if (Common.IsValidRule(line))
 			{
-				var foobar = "";
+				return Enum_ParseState.RULE;
 			}
 			return Enum_ParseState.FACT;
 		}
 		private Enum_ParseState ParseFacts(string line)
 		{
-			return Enum_ParseState.QUERY;
+			if (Common.IsValidFact(line))
+			{
+				return Enum_ParseState.QUERY;
+			}
+			return Enum_ParseState.FINISH;
 		}
 		private Enum_ParseState ParseQueries(string line)
 		{
@@ -63,27 +68,30 @@ namespace expert_system.models
 		}
 		private bool ParseLines()
 		{
-			try
+
+			foreach (string line in File.ReadLines(input_file))
 			{
-				foreach (string line in File.ReadLines(input_file))
+				lines.Add(line);
+				if (_state != Enum_ParseState.FINISH)
 				{
-					lines.Add(line);
-					if (_state != Enum_ParseState.FINISH)
+					try
 					{
-						var initialized_line = line.Split("#")[0];
-						initialized_line = line.Replace(@"/[^\S\r\n] /", " ");
-						if (!string.IsNullOrEmpty(initialized_line))
+						if (!string.IsNullOrEmpty(line))
 						{
 							_state = _stateFunctions[_state](line);
 						}
 					}
+					catch (Exception e)
+					{
+						Console.WriteLine($"_stateFunctions Exception: state: '{_state}', '{e}'");
+						throw;
+					}
 				}
 			}
-			catch (Exception e)
-			{
-
-			}
-			return false;
+			if (_state != Enum_ParseState.FINISH)
+				return false;
+			else
+				return true;
 		}
 	}
 }
