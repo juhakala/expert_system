@@ -15,7 +15,12 @@ namespace expert_system
 				{
 					cont.input.input_file = args[0];
 				}
+				else
+				{
+					throw new Exception($"Invalid input file: '{args[0]}'.");
+				}
 			}
+			cont.input.ParseInput();
 		}
 	}
 }

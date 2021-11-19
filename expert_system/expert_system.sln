@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "expert_system", "expert_system\expert_system.csproj", "{B377C347-88FF-47CF-835A-791C5CB40E77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "expert_system", "expert_system\expert_system.csproj", "{B377C347-88FF-47CF-835A-791C5CB40E77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{ABC0646B-E88E-4C57-92A1-31334CF24A4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{B377C347-88FF-47CF-835A-791C5CB40E77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B377C347-88FF-47CF-835A-791C5CB40E77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B377C347-88FF-47CF-835A-791C5CB40E77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABC0646B-E88E-4C57-92A1-31334CF24A4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABC0646B-E88E-4C57-92A1-31334CF24A4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABC0646B-E88E-4C57-92A1-31334CF24A4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABC0646B-E88E-4C57-92A1-31334CF24A4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
