@@ -12,7 +12,7 @@ namespace UnitTests.modelsDir.CommonTests
 		[DataRow("=ABC#valid comment")]
 		[DataRow("=")]
 		[DataRow("= A B C D E F G H")]
-		public void IsValidRule_Tests(string line)
+		public void IsValidFact_Tests(string line)
 		{
 			Assert.IsTrue(Common.IsValidFact(line));
 		}
@@ -23,8 +23,8 @@ namespace UnitTests.modelsDir.CommonTests
 		[DataRow("=AbC")]
 		[DataRow("=a")]
 		[DataRow("a")]
-		[DataRow("#= A B C D E F G H")]
-		public void IsNotValidRule_Tests(string line)
+		[DataRow("#= A B C  D 	 E		F	G H")]
+		public void IsNotValidFact_Tests(string line)
 		{
 			Assert.IsFalse(Common.IsValidFact(line));
 		}
@@ -33,7 +33,7 @@ namespace UnitTests.modelsDir.CommonTests
 		[ExpectedException(typeof(ArgumentNullException))]
 		[DataRow("")]
 		[DataRow(null)]
-		public void IsNotValidRuleNullOrEmpty_Tests(string line)
+		public void IsNotValidFactNullOrEmpty_Tests(string line)
 		{
 			Common.IsValidRule(line);
 		}

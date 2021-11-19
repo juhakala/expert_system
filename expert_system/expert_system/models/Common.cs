@@ -119,14 +119,14 @@ namespace expert_system.models
 				return false;
 			for (int i = 1; i < tokens.Length; i++)
 			{
-				if (tokens[i] < 'A' && tokens[i] > 'Z')
+				if (tokens[i] < 'A' || tokens[i] > 'Z')
 					state = false;
 			}
 			return state;
 		}
 		static public bool IsValidFact(string line)
 		{
-			return IsValidFact(TrimLineToTokens(line).ToCharArray());
+			return IsValidFact(TrimLineToTokens(line).Replace(" ", "").ToCharArray());
 		}
 	}
 }
